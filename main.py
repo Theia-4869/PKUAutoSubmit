@@ -27,7 +27,7 @@ def go(config):
     conf.read(config, encoding='utf8')
 
     userName, password = dict(conf['login']).values()
-    campus, reason = dict(conf['common']).values()
+    campus, reason, detail = dict(conf['common']).values()
     destination, track = dict(conf['out']).values()
     habitation, district, street = dict(conf['in']).values()
     capture = conf.getboolean('capture', '是否需要备案历史截图')
@@ -35,20 +35,20 @@ def go(config):
     wechat = conf.getboolean('wechat', '是否需要微信通知')
     sckey = conf['wechat']['SCKEY']
 
-    run(driver_pjs, userName, password, campus, reason, destination, track,
+    run(driver_pjs, userName, password, campus, reason, detail, destination, track,
         habitation, district, street, capture, path, wechat, sckey)
 
 
 if __name__ == '__main__':
 
-    driver_pjs = webdriver.PhantomJS(executable_path=sys_path(browser="phantomjs"))
+    # driver_pjs = webdriver.PhantomJS(executable_path=sys_path(browser="phantomjs"))
 
-    # chrome_options = Options()
-    # chrome_options.add_argument("--headless")
-    # driver_pjs = webdriver.Chrome(
-    #         options=chrome_options,
-    #         executable_path=sys_path(browser="chromedriver"),
-    #         service_args=['--ignore-ssl-errors=true', '--ssl-protocol=TLSv1'])
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    driver_pjs = webdriver.Chrome(
+            options=chrome_options,
+            executable_path=sys_path(browser="chromedriver"),
+            service_args=['--ignore-ssl-errors=true', '--ssl-protocol=TLSv1'])
     print('Driver Launched\n')
 
     lst_conf = sorted([
